@@ -1,0 +1,41 @@
+#--------------------------------------------
+spring:
+  datasource:
+    hikari:
+      # 最小空闲时连接数
+      minimum-idle: 2
+    driver-class-name: com.mysql.jdbc.Driver
+    # mysql 驱动版本更新后，不需要再对&进行转义。且需要增加 Timezone 参数
+    url: jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&useUnicode=true&autoReconnect=true&useSSL=false&serverTimezone = GMT
+    username: root
+    password: root
+#-------------------------------------------
+server:
+  port: 8080
+  tomcat:
+    # 配置Tomcat编码,默认为UTF-8
+    uri-encoding: UTF-8
+#------------- mybatis ---------------------------------
+mybatis-plus:
+  # 配置MyBaties全局配置文件:mybatis-config.xml
+#  config-location: classpath:/mybatis-config.xml
+  # 对应实体类的包名
+#  type-aliases-package: com.xiaohe66.web.code
+  # 和 typeAliasesPackage 配合使用，表示仅描述该类的子类
+#  type-aliases-super-type: com.xiaohe66.web.base.base.BasePo
+  # mapper.xml文件所在位置
+  mapper-locations: classpath:/mapper/**/*.xml
+
+#------------- logback ---------------------------------
+# 输出格式：
+# %line 行号
+# %M  方法名
+logging:
+  file:
+    path: C:\\xiaohe66\\log\\
+  config: classpath:logback-spring.xml
+  pattern:
+    console: '%d{HH:mm:ss.SSS} %highlight[%-5p] [%thread] %cyan(%logger{15}) - %msg %n'
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5p] [%thread] %logger{30} - %msg %n'
+
+debug: true
