@@ -1,17 +1,17 @@
 package com.xiaohe66.crud;
 
+import com.xiaohe66.crud.impl.DefaultCrudDispatcher;
+import com.xiaohe66.crud.impl.DefaultCrudEntityScanner;
+import com.xiaohe66.crud.impl.DefaultCrudIdGeneratorImpl;
 import com.xiaohe66.crud.impl.DefaultCrudServiceFactoryImpl;
 import com.xiaohe66.crud.register.ICrudServiceFactory;
-import com.xiaohe66.crud.impl.DefaultCrudEntityScanner;
 import com.xiaohe66.crud.register.scan.ICrudEntityScanner;
 import com.xiaohe66.crud.server.CrudController;
-import com.xiaohe66.crud.impl.DefaultCrudDispatcher;
 import com.xiaohe66.crud.server.ICrudDispatcher;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import com.xiaohe66.crud.server.ICrudIdGenerator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 import javax.sql.DataSource;
 
@@ -37,9 +37,14 @@ public class CrudAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ICrudServiceFactory crudServiceFactory(DataSource dataSource) {
+    public ICrudIdGenerator<Long> crudIdGenerator() {
+        return new DefaultCrudIdGeneratorImpl();
+    }
 
-        return new DefaultCrudServiceFactoryImpl(dataSource);
+    @Bean
+    @ConditionalOnMissingBean
+    public ICrudServiceFactory crudServiceFactory(DataSource dataSource, ICrudIdGenerator crudIdGenerator) {
+        return new DefaultCrudServiceFactoryImpl(dataSource, crudIdGenerator);
     }
 
     @Bean

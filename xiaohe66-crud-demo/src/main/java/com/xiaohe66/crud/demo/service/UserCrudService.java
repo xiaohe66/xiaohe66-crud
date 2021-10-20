@@ -4,7 +4,6 @@ import com.xiaohe66.common.dto.Page;
 import com.xiaohe66.crud.demo.entity.User;
 import com.xiaohe66.crud.server.ICrudService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
@@ -13,7 +12,7 @@ import java.util.Collections;
  * @since 2021.10.18 17:13
  */
 @Slf4j
-@Service
+//@Service
 public class UserCrudService implements ICrudService<User> {
 
     @Override

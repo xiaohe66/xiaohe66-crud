@@ -35,6 +35,12 @@ public class DefaultCrudDispatcher implements ICrudDispatcher {
         serviceImplMap.remove(name);
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> ICrudService<T> getService(String name) {
+        return (ICrudService<T>) serviceImplMap.get(name);
+    }
+
     @Override
     public boolean post(String name, String body) {
 

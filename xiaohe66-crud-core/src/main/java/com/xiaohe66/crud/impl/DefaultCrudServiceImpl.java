@@ -2,6 +2,7 @@ package com.xiaohe66.crud.impl;
 
 import com.xiaohe66.common.dto.Page;
 import com.xiaohe66.crud.register.scan.CrudEntityWrapper;
+import com.xiaohe66.crud.server.ICrudIdGenerator;
 import com.xiaohe66.crud.server.ICrudService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -34,6 +35,7 @@ public class DefaultCrudServiceImpl implements ICrudService<Map<String, Object>>
 
     private final CrudEntityWrapper entityWrapper;
     private final DataSource dataSource;
+    private final ICrudIdGenerator<?> crudIdGenerator;
 
     private final String fields;
 
@@ -42,9 +44,13 @@ public class DefaultCrudServiceImpl implements ICrudService<Map<String, Object>>
     private final String listByParamSqlPrefix;
     private final String listByParamCountSqlPrefix;
 
-    public DefaultCrudServiceImpl(CrudEntityWrapper entityWrapper, DataSource dataSource) {
+    public DefaultCrudServiceImpl(CrudEntityWrapper entityWrapper,
+                                  DataSource dataSource,
+                                  ICrudIdGenerator<?> crudIdGenerator) {
+
         this.entityWrapper = entityWrapper;
         this.dataSource = dataSource;
+        this.crudIdGenerator = crudIdGenerator;
 
         Set<String> fieldNames = entityWrapper.getFieldNames();
 
@@ -73,6 +79,11 @@ public class DefaultCrudServiceImpl implements ICrudService<Map<String, Object>>
     public boolean add(Map<String, Object> params) {
 
         checkParams(params);
+
+        Object id = crudIdGenerator.generate(params);
+        if (id != null) {
+            params.put("id", id);
+        }
 
         StringBuilder fieldBuilder = new StringBuilder();
         StringBuilder valueBuilder = new StringBuilder();

@@ -13,6 +13,8 @@ public interface ICrudDispatcher {
 
     void removeService(String name);
 
+    <T> ICrudService<T> getService(String name);
+
     boolean post(String table, String body);
 
     boolean put(String table, String body);

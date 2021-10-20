@@ -77,24 +77,36 @@ public class DefaultCrudEntityScanner implements ICrudEntityScanner {
                     fieldNames.add(field.getName());
                 }
 
-                String simpleName = entityCls.getSimpleName();
 
                 CrudEntityWrapper entityWrapper = new CrudEntityWrapper();
                 entityWrapper.setCls(entityCls);
-                entityWrapper.setTableName(StringUtils.isNotEmpty(crud.table()) ? crud.table() : simpleName);
+
+                String tableName = crud.tableName();
 
                 if (StringUtils.isNotEmpty(crud.value())) {
 
                     entityWrapper.setName(crud.value());
+                    if (StringUtils.isEmpty(tableName)) {
+
+                        tableName = crud.value();
+                    }
+
                 } else {
 
                     // 首字母小写
-                    char[] chars = simpleName.toCharArray();
+                    char[] chars = entityCls.getSimpleName().toCharArray();
                     if (chars[0] >= 'A' && chars[0] <= 'Z') {
                         chars[0] += 32;
                     }
-                    entityWrapper.setName(new String(chars));
+                    String name = new String(chars);
+
+                    entityWrapper.setName(name);
+
+                    if (StringUtils.isEmpty(tableName)) {
+                        tableName = name;
+                    }
                 }
+                entityWrapper.setTableName(tableName);
                 entityWrapper.setFieldNames(fieldNames);
 
                 entityWrapperList.add(entityWrapper);

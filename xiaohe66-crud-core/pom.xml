@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.xiaohe66</groupId>
         <artifactId>xiaohe66-crud</artifactId>
-        <version>0.0.1</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xiaohe66-crud-core</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
 
     <dependencies>
 
@@ -39,7 +39,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>-->
-
 
     </dependencies>
 

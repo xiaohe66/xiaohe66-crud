@@ -17,5 +17,5 @@ public @interface Crud {
 
     String value() default "";
 
-    String table() default "";
+    String tableName() default "";
 }

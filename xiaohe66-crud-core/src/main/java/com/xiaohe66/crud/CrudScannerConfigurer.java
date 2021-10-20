@@ -6,6 +6,7 @@ import com.xiaohe66.crud.register.scan.ICrudEntityScanner;
 import com.xiaohe66.crud.server.ICrudDispatcher;
 import com.xiaohe66.crud.server.ICrudService;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author xiaohe
  * @since 2021.10.12 10:28
  */
+@Slf4j
 public class CrudScannerConfigurer implements ApplicationContextAware, InitializingBean {
 
     /**
@@ -58,10 +60,17 @@ public class CrudScannerConfigurer implements ApplicationContextAware, Initializ
 
             if (crudService == null) {
 
+                log.info("register crud service default impl : {}", entityWrapper.getName());
+
                 crudService = crudServiceFactory.create(entityWrapper);
+                crudDispatcher.registerService(entityWrapper.getName(), crudService);
+            }else{
+
+                log.info("register crud service user impl : {}", entityWrapper.getName());
+
+                crudDispatcher.registerService(entityWrapper.getName(), crudService);
             }
 
-            crudDispatcher.registerService(entityWrapper.getName(), crudService);
         }
     }
 
